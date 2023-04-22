@@ -40,13 +40,13 @@ return require('packer').startup(function(use)
         }
     }
 
+    use 'prichrd/netrw.nvim'
+    use 'nvim-tree/nvim-web-devicons'
+
     use {
-        'nvim-tree/nvim-tree.lua',
-        requires = {
-            'nvim-tree/nvim-web-devicons', -- optional
-        },
+        'numToStr/Comment.nvim',
         config = function()
-            require("nvim-tree").setup {}
+            require('Comment').setup()
         end
     }
 end)
