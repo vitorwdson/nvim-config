@@ -490,6 +490,13 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
+
+-- Diagnostic keymaps
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+vim.keymap.set('n', '<leader>dq', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -576,6 +583,7 @@ local servers = {
     },
   },
   tsserver = {},
+  taplo = {},
 }
 
 -- Setup neovim lua configuration
@@ -605,7 +613,7 @@ mason_lspconfig.setup_handlers {
 
 require("mason-null-ls").setup({
   automatic_installation = true,
-  ensure_installed = { "black", "isort" }
+  ensure_installed = { "black", "isort", }
 })
 
 local null_ls = require("null-ls")
