@@ -526,7 +526,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  nmap('<C-K>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('<leader>gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -613,7 +613,7 @@ mason_lspconfig.setup_handlers {
 
 require("mason-null-ls").setup({
   automatic_installation = true,
-  ensure_installed = { "black", "isort", }
+  ensure_installed = { "black", "isort", "prettier" }
 })
 
 local null_ls = require("null-ls")
@@ -622,6 +622,7 @@ null_ls.setup({
   sources = {
     null_ls.builtins.formatting.black,
     null_ls.builtins.formatting.isort,
+    null_ls.builtins.formatting.prettier,
   },
 })
 
