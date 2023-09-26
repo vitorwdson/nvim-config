@@ -367,7 +367,9 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("i", "<C-c>", "<Esc>")
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+vim.keymap.set("n", "<leader>f", function()
+  vim.lsp.buf.format({ timeout_ms = 5000 })
+end)
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
