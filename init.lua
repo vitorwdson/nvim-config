@@ -452,6 +452,11 @@ treesitter_parser_config.templ = {
   },
 }
 vim.treesitter.language.register('templ', 'templ')
+vim.filetype.add {
+  extension = {
+    templ = "templ"
+  }
+}
 
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
@@ -609,6 +614,18 @@ local servers = {
 -- Setup neovim lua configuration
 require('neodev').setup()
 
+local configs = require "lspconfig.configs"
+if not configs.templ then
+  configs.templ = {
+    default_config = {
+      cmd = { "templ", "lsp" },
+      filetypes = { 'templ' },
+      root_dir = require "lspconfig.util".root_pattern("go.mod", ".git"),
+      settings = {},
+    },
+  }
+end
+
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
@@ -630,10 +647,17 @@ mason_lspconfig.setup_handlers {
     }
   end
 }
+require('lspconfig').templ.setup {
+  capabilities = capabilities,
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  },
+}
 
 require("mason-null-ls").setup({
   automatic_installation = true,
-  ensure_installed = { "black", "isort", "prettier" }
+  ensure_installed = { "black", "isort", "prettier", "templ" }
 })
 
 local null_ls = require("null-ls")
