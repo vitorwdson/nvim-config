@@ -353,7 +353,7 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "81"
 
 -- [[ Basic Keymaps ]]
 
@@ -585,7 +585,7 @@ local servers = {
 
   emmet_ls = {
     filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "svelte", "pug",
-      "typescriptreact", "vue" },
+      "typescriptreact", "vue", "htmldjango" },
     init_options = {
       html = {
         options = {
@@ -609,6 +609,7 @@ local servers = {
   },
   tsserver = {},
   taplo = {},
+  tailwindcss = {},
 }
 
 -- Setup neovim lua configuration
