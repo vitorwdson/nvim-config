@@ -591,7 +591,7 @@ local servers = {
 
   emmet_ls = {
     filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "svelte", "pug",
-      "typescriptreact", "vue", "htmldjango" },
+      "typescriptreact", "vue", "htmldjango", "templ" },
     init_options = {
       html = {
         options = {
@@ -615,7 +615,9 @@ local servers = {
   },
   tsserver = {},
   taplo = {},
-  tailwindcss = {},
+  tailwindcss = {
+    filetypes = { "html", "javascriptreact", "svelte", "typescriptreact", "vue", "htmldjango", "templ" },
+  },
 }
 
 -- Setup neovim lua configuration
