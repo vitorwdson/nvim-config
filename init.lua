@@ -588,7 +588,6 @@ local servers = {
       telemetry = { enable = false },
     },
   },
-
   emmet_ls = {
     filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "svelte", "pug",
       "typescriptreact", "vue", "htmldjango", "templ" },
@@ -656,6 +655,13 @@ mason_lspconfig.setup_handlers {
     }
   end
 }
+
+require('lspconfig').htmx.setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = {"html", "htmldjango", "templ", "typescriptreact", "javascriptreact"},
+}
+
 require('lspconfig').templ.setup {
   capabilities = capabilities,
   on_attach = on_attach,
@@ -666,7 +672,7 @@ require('lspconfig').templ.setup {
 
 require("mason-null-ls").setup({
   automatic_installation = true,
-  ensure_installed = { "black", "isort", "prettier", "templ" }
+  ensure_installed = { "black", "isort", "prettier", "templ", "htmx-lsp" }
 })
 
 local null_ls = require("null-ls")
