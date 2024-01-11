@@ -614,6 +614,7 @@ local servers = {
   },
   tsserver = {},
   taplo = {},
+  biome = {},
   tailwindcss = {
     filetypes = { "html", "javascriptreact", "svelte", "typescriptreact", "vue", "htmldjango", "templ" },
   },
@@ -657,9 +658,9 @@ mason_lspconfig.setup_handlers {
 }
 
 require('lspconfig').htmx.setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      filetypes = {"html", "htmldjango", "templ", "typescriptreact", "javascriptreact"},
+  capabilities = capabilities,
+  on_attach = on_attach,
+  filetypes = { "html", "htmldjango", "templ", "typescriptreact", "javascriptreact" },
 }
 
 require('lspconfig').templ.setup {
@@ -672,7 +673,13 @@ require('lspconfig').templ.setup {
 
 require("mason-null-ls").setup({
   automatic_installation = true,
-  ensure_installed = { "black", "isort", "prettier", "templ", "htmx-lsp" }
+  ensure_installed = {
+    "black",
+    "isort",
+    -- "prettier",
+    "templ",
+    "htmx-lsp"
+  }
 })
 
 local null_ls = require("null-ls")
@@ -681,7 +688,7 @@ null_ls.setup({
   sources = {
     null_ls.builtins.formatting.black,
     null_ls.builtins.formatting.isort,
-    null_ls.builtins.formatting.prettier,
+    -- null_ls.builtins.formatting.prettier,
   },
 })
 
