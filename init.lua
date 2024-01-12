@@ -381,7 +381,22 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("n", "<leader>f", function()
-  vim.lsp.buf.format({ timeout_ms = 5000 })
+  if vim.bo.filetype == "templ" then
+    local bufnr = vim.api.nvim_get_current_buf()
+    local filename = vim.api.nvim_buf_get_name(bufnr)
+    local cmd = "templ fmt " .. vim.fn.shellescape(filename)
+
+    vim.fn.jobstart(cmd, {
+      on_exit = function()
+        -- Reload the buffer only if it's still the current buffer
+        if vim.api.nvim_get_current_buf() == bufnr then
+          vim.cmd('e!')
+        end
+      end,
+    })
+  else
+    vim.lsp.buf.format({ timeout_ms = 5000 })
+  end
 end)
 
 -- [[ Highlight on yank ]]
@@ -601,7 +616,7 @@ local servers = {
     }
   },
   gopls = {},
-  html = { filetypes = { 'html', 'twig', 'hbs' } },
+  html = { filetypes = { 'html', 'twig', 'hbs', 'templ' } },
   jsonls = {},
   pyright = {
     python = {
@@ -617,6 +632,7 @@ local servers = {
   biome = {},
   tailwindcss = {
     filetypes = { "html", "javascriptreact", "svelte", "typescriptreact", "vue", "htmldjango", "templ" },
+    init_options = { userLanguages = { templ = "html" } },
   },
 }
 
@@ -653,6 +669,7 @@ mason_lspconfig.setup_handlers {
       on_attach = on_attach,
       settings = servers[server_name],
       filetypes = (servers[server_name] or {}).filetypes,
+      init_options = (servers[server_name] or {}).init_options,
     }
   end
 }
@@ -689,7 +706,7 @@ null_ls.setup({
     null_ls.builtins.formatting.black,
     null_ls.builtins.formatting.isort,
     null_ls.builtins.formatting.prettier.with({
-        filetypes = { "css" },
+      filetypes = { "css" },
     }),
   },
 })
