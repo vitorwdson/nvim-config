@@ -214,7 +214,11 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
-  { 'theprimeagen/harpoon', },
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" }
+  },
 
   { 'mbbill/undotree', },
   {
@@ -412,16 +416,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 
 -- Configuring Harpoon --
-local harpoon_mark = require("harpoon.mark")
-local harpoon_ui = require("harpoon.ui")
+local harpoon = require("harpoon")
 
-vim.keymap.set("n", "<leader>a", harpoon_mark.add_file)
-vim.keymap.set("n", "<leader>h", harpoon_ui.toggle_quick_menu)
+---@diagnostic disable-next-line: missing-parameter
+harpoon:setup()
 
-vim.keymap.set("n", "<C-h>", function() harpoon_ui.nav_file(1) end)
-vim.keymap.set("n", "<C-j>", function() harpoon_ui.nav_file(2) end)
-vim.keymap.set("n", "<C-k>", function() harpoon_ui.nav_file(3) end)
-vim.keymap.set("n", "<C-l>", function() harpoon_ui.nav_file(4) end)
+vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end)
+vim.keymap.set("n", "<leader>h", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
+vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end)
+vim.keymap.set("n", "<C-k>", function() harpoon:list():select(3) end)
+vim.keymap.set("n", "<C-l>", function() harpoon:list():select(4) end)
 
 -- Configuring Fugitive --
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
