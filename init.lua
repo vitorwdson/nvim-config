@@ -297,10 +297,11 @@ require('lazy').setup({
 
   {
     'Wansmer/treesj',
-    keys = { '<space>m', '<space>j', '<space>s' },
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
-      require('treesj').setup({ --[[ your config ]] })
+      require('treesj').setup({
+        use_default_keymaps = false,
+      })
     end,
   },
 
@@ -423,6 +424,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- Configuring Undotree --
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+
+-- Configuring TreeSJ --
+vim.keymap.set('n', '<leader>m', require('treesj').toggle)
 
 -- Configuring Harpoon --
 local harpoon = require("harpoon")
