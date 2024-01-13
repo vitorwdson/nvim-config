@@ -293,7 +293,16 @@ require('lazy').setup({
       -- add any options here
     },
     lazy = false,
-  }
+  },
+
+  {
+    'Wansmer/treesj',
+    keys = { '<space>m', '<space>j', '<space>s' },
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      require('treesj').setup({ --[[ your config ]] })
+    end,
+  },
 
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
