@@ -394,16 +394,10 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("n", "<leader>f", function()
   if vim.bo.filetype == "templ" then
-    local bufnr = vim.api.nvim_get_current_buf()
-    local filename = vim.api.nvim_buf_get_name(bufnr)
-    local cmd = "templ fmt " .. vim.fn.shellescape(filename)
-
-    vim.fn.jobstart(cmd, {
-      on_exit = function()
-        -- Reload the buffer only if it's still the current buffer
-        if vim.api.nvim_get_current_buf() == bufnr then
-          vim.cmd('e!')
-        end
+    vim.lsp.buf.format({
+      timeout_ms = 5000,
+      filter = function(client)
+        return client.name == 'templ'
       end,
     })
   else
@@ -432,7 +426,13 @@ vim.keymap.set('n', '<leader>m', require('treesj').toggle)
 local harpoon = require("harpoon")
 
 ---@diagnostic disable-next-line: missing-parameter
-harpoon:setup()
+harpoon:setup({
+  settings = {
+    save_on_toggle = true,
+    sync_on_ui_close = true,
+  },
+})
+
 
 vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end)
 vim.keymap.set("n", "<leader>h", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
