@@ -274,6 +274,9 @@ require('lazy').setup({
       require 'netrw'.setup {
         use_devicons = true, -- Uses nvim-web-devicons if true, otherwise use the file icon specified above
       }
+      vim.g.netrw_browse_split = 0
+      vim.g.netrw_banner = 0
+      vim.g.netrw_winsize = 25
     end,
   },
 
@@ -390,6 +393,16 @@ vim.keymap.set("v", ">", ">gv")
 
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
+
+vim.keymap.set("x", "<leader>p", "\"_dP")
+
+vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y")
+vim.keymap.set("n", "<leader>Y", "\"+Y")
+
+vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d")
+vim.keymap.set("n", "<leader>D", "\"+D")
+
+vim.keymap.set("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("n", "<leader>f", function()
