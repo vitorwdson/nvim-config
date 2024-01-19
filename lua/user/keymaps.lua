@@ -1,3 +1,6 @@
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -25,9 +28,3 @@ vim.keymap.set("n", "<leader>D", "\"+D")
 vim.keymap.set("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 vim.keymap.set("i", "<C-c>", "<Esc>")
-
--- Configuring Undotree --
-vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
-
--- Configuring TreeSJ --
-vim.keymap.set('n', '<leader>m', require('treesj').toggle)

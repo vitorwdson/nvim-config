@@ -39,7 +39,12 @@ return {
     opts = {},
   },
 
-  { 'mbbill/undotree', },
+  {
+    'mbbill/undotree',
+    config = function()
+      vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+    end
+  },
 
   {
     'kevinhwang91/nvim-ufo',
@@ -78,6 +83,8 @@ return {
       require('treesj').setup({
         use_default_keymaps = false,
       })
+
+      vim.keymap.set('n', '<leader>m', require('treesj').toggle)
     end,
   },
 
