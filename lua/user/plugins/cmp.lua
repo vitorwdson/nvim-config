@@ -10,6 +10,9 @@ return {
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
 
+      -- Adds filesytem path completions
+      'hrsh7th/cmp-path',
+
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
 
@@ -60,6 +63,7 @@ return {
         sources = {
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
+          { name = 'path' },
         },
       }
     end
