@@ -61,6 +61,8 @@ return {
       vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 
       require('ufo').setup({
+        open_fold_hl_timeout = 150,
+        close_fold_kinds = { 'imports', 'comment' },
         provider_selector = function(bufnr, filetype, buftype)
           return { 'treesitter', 'indent' }
         end
@@ -82,6 +84,7 @@ return {
     config = function()
       require('treesj').setup({
         use_default_keymaps = false,
+        max_join_length = 500,
       })
 
       vim.keymap.set('n', '<leader>m', require('treesj').toggle)
