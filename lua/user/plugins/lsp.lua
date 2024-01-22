@@ -13,6 +13,8 @@ return {
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
+
+      'nanotee/sqls.nvim',
     },
     config = function()
       local on_attach = function(_, bufnr)
@@ -90,6 +92,9 @@ return {
           init_options = { userLanguages = { templ = "html" } },
         },
         cssls = {},
+        sqls = {
+          filetypes = { "sql" },
+        },
       }
 
       require('neodev').setup()
