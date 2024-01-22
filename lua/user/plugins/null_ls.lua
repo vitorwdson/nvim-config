@@ -14,7 +14,8 @@ return {
           "isort",
           "prettier",
           "templ",
-          "htmx-lsp"
+          "htmx-lsp",
+          "sql-formatter",
         }
       })
 
@@ -26,6 +27,13 @@ return {
           null_ls.builtins.formatting.isort,
           null_ls.builtins.formatting.prettier.with({
             filetypes = { "css" },
+          }),
+          null_ls.builtins.formatting.sql_formatter.with({
+            generator_opts = {
+              command = "sql-formatter",
+              args = { "-c", vim.fn.stdpath("config") .. "/sql-formatter.json" },
+              to_stdin = true,
+            },
           }),
         },
       })

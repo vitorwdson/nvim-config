@@ -160,7 +160,12 @@ return {
             end,
           })
         else
-          vim.lsp.buf.format({ timeout_ms = 5000 })
+          vim.lsp.buf.format({
+            timeout_ms = 5000,
+            filter = function(client)
+              return client.name ~= 'sqls'
+            end,
+          })
         end
       end)
     end
