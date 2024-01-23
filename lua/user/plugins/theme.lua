@@ -50,15 +50,15 @@ return {
         global_status = true,
       },
       winbar = {
-        lualine_y = {
-          'diagnostics',
-        },
-        lualine_z = {
+        lualine_b = {
           lualine_filetype,
+        },
+        lualine_c = {
+          'diagnostics',
         },
       },
       inactive_winbar = {
-        lualine_z = {
+        lualine_b = {
           lualine_filetype,
         },
       },
