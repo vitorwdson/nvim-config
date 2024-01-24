@@ -121,6 +121,8 @@ return {
           },
         }
       }
+
+      vim.keymap.set("n", "<leader>tsp", ":TSPlaygroundToggle<CR>")
     end
   },
 }
