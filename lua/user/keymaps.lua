@@ -34,3 +34,4 @@ vim.keymap.set("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left>
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "<leader>r", ":source ~/.config/nvim/init.lua<CR>")
+vim.keymap.set("n", "<leader><leader>x", ":source %<CR>")
