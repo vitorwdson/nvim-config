@@ -4,6 +4,7 @@ return {
     tag = '0.1.5',
     dependencies = {
       'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-ui-select.nvim',
       -- Fuzzy Finder Algorithm which requires local dependencies to be built.
       -- Only load if `make` is available. Make sure you have the system
       -- requirements installed.
@@ -29,10 +30,20 @@ return {
             },
           },
         },
+        extensions = {
+          ["ui-select"] = {
+            require("telescope.themes").get_dropdown {
+              -- even more opts
+            }
+          }
+        }
       }
 
       -- Enable telescope fzf native, if installed
       pcall(require('telescope').load_extension, 'fzf')
+
+      -- Enable telescope fzf native, if installed
+      require('telescope').load_extension('ui-select')
 
       -- See `:help telescope.builtin`
       vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
