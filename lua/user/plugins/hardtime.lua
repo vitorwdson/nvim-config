@@ -20,6 +20,7 @@ return {
       "notify",
       "undotree",
       "fugitive",
+      "harpoon",
     }
   }
 }
