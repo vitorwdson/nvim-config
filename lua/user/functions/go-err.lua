@@ -123,4 +123,4 @@ local function insert_go_error_handling()
   })
 end
 
-vim.keymap.set("n", "<leader>err", insert_go_error_handling)
+vim.keymap.set("n", "<leader>ger", insert_go_error_handling)
