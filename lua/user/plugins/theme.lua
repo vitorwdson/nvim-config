@@ -88,6 +88,16 @@ return {
             icon = "",
             color = "#f1502f",
             name = "Gitignore"
+          },
+          ["go.sum"] = {
+            icon = "",
+            color = "#519aba",
+            name = "GoModuleChecksum"
+          },
+          ["go.mod"] = {
+            icon = "",
+            color = "#519aba",
+            name = "GoModule"
           }
         },
         override_by_extension = {
@@ -105,7 +115,12 @@ return {
             icon = "",
             color = "#faf743",
             name = "Env"
-          }
+          },
+          ["go"] = {
+            icon = "",
+            color = "#519aba",
+            name = "GoModuleChecksum"
+          },
         },
       }
     end,
