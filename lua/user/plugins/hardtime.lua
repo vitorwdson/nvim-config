@@ -21,6 +21,7 @@ return {
       "undotree",
       "fugitive",
       "harpoon",
+      "tsplayground",
     }
   }
 }
