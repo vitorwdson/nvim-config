@@ -65,6 +65,9 @@ end
 local function insert_go_error_handling()
   -- Get the current buffer's parser
   local parser = parsers.get_parser()
+  if parser == nil then
+    return
+  end
 
   -- Ignore if not in a go file
   local lang = parser:lang()
