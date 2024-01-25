@@ -6,6 +6,18 @@ return {
     },
     config = function()
       vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
+
+      local augroup = vim.api.nvim_create_augroup("fugitive-attach", { clear = true })
+      vim.api.nvim_create_autocmd("BufEnter", {
+        group = augroup,
+        callback = function (ev)
+          if vim.bo.filetype ~= "fugitive" then
+            return
+          end
+
+          vim.api.nvim_buf_set_keymap(ev.buf, "n", "<leader>P", ":Git push<cr>", {})
+        end
+      })
     end
   },
 
