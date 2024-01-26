@@ -22,6 +22,7 @@ return {
       "fugitive",
       "harpoon",
       "tsplayground",
+      "qf",
     }
   }
 }
