@@ -35,6 +35,8 @@ return {
               to_stdin = true,
             },
           }),
+          null_ls.builtins.formatting.goimports,
+          null_ls.builtins.formatting.gofumpt,
         },
       })
     end
