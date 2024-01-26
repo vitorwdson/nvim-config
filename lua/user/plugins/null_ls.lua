@@ -1,23 +1,40 @@
 return {
   {
-    "jay-babu/mason-null-ls.nvim",
+    "nvimtools/none-ls.nvim",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      "williamboman/mason.nvim",
-      "nvimtools/none-ls.nvim",
+      'neovim/nvim-lspconfig',
+      'williamboman/mason.nvim',
     },
     config = function()
-      require("mason-null-ls").setup({
-        automatic_installation = true,
-        ensure_installed = {
-          "black",
-          "isort",
-          "prettier",
-          "templ",
-          "htmx-lsp",
-          "sql-formatter",
-        }
-      })
+      local to_install = {
+        "black",
+        "isort",
+        "prettier",
+        "templ",
+        "htmx-lsp",
+        "sql-formatter",
+        "gofumpt",
+        "goimports",
+      }
+
+      require("mason").setup()
+      local mr = require("mason-registry")
+
+      local function ensure_installed()
+        for _, tool in ipairs(to_install) do
+          local p = mr.get_package(tool)
+          if not p:is_installed() then
+            p:install()
+          end
+        end
+      end
+
+      if mr.refresh then
+        mr.refresh(ensure_installed)
+      else
+        ensure_installed()
+      end
 
       local null_ls = require("null-ls")
 
