@@ -151,20 +151,23 @@ return {
       vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 
       vim.keymap.set("n", "<leader>f", function()
+        local opts = {
+          timeout_ms = 5000,
+          filter = function(client)
+            return client.name ~= 'sqls'
+          end,
+        }
+
         if vim.bo.filetype == "templ" then
-          vim.lsp.buf.format({
-            timeout_ms = 5000,
-            filter = function(client)
-              return client.name == 'templ'
-            end,
-          })
-        else
-          vim.lsp.buf.format({
-            timeout_ms = 5000,
-            filter = function(client)
-              return client.name ~= 'sqls'
-            end,
-          })
+          opts.filter = function(client)
+            return client.name == 'templ'
+          end
+        end
+
+        vim.lsp.buf.format(opts)
+
+        if vim.fn.exists(":FormatGoSQL") > 0 then
+          vim.cmd("FormatGoSQL")
         end
       end)
     end
