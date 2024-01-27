@@ -1,5 +1,6 @@
 local ts = vim.treesitter
 local parsers = require("nvim-treesitter.parsers")
+local ts_utils = require("user.functions.ts-utils")
 
 -- Get all return types for a function/method
 local query_string = [[
@@ -29,39 +30,6 @@ local type_values = {
   error = 'err',
 }
 
----Loops through all parent nodes to find the closest function or method declaration
----@param node TSNode
----@return TSNode|nil
-local function find_closest_function(node)
-  while node ~= nil do
-    local type = node:type()
-    if type == "function_declaration" or type == "method_declaration" then
-      break
-    end
-
-    node = node:parent()
-  end
-
-  return node
-end
-
----Finds the group of tab characters at the start of the node's line
----@param node TSNode
----@return string
-local function get_identation(node)
-  local curr_line = node:start()
-  local next_line = curr_line + 1
-
-  local line = vim.api.nvim_buf_get_lines(0, curr_line, next_line, false)[1]
-  local identation = string.match(line, "^\t+")
-
-  if identation == nil then
-    return ""
-  end
-
-  return identation
-end
-
 local function insert_go_error_handling()
   -- Get the current buffer's parser
   local parser = parsers.get_parser()
@@ -84,7 +52,7 @@ local function insert_go_error_handling()
   -- and adds the error handling after it ends
   local next_line = curr_node:start() + 1
 
-  local function_node = find_closest_function(curr_node)
+  local function_node = ts_utils.find_closest_function(curr_node)
   if function_node == nil then
     return
   end
@@ -106,8 +74,8 @@ local function insert_go_error_handling()
     table.insert(return_values, value)
   end
 
-  local identation = get_identation(curr_node)
-  local function_identation = get_identation(function_node)
+  local identation = ts_utils.get_identation(curr_node)
+  local function_identation = ts_utils.get_identation(function_node)
 
   -- Fixes identation if the cursor is at the function definition
   if string.len(function_identation) == string.len(identation) then
