@@ -1,4 +1,4 @@
-# My personal NVIM config
+# My personal NVIM config 
 
 To use this configuration you just need to clone the repository into your nvim config folder
 
