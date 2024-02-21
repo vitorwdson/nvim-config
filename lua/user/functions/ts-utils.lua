@@ -6,7 +6,7 @@ local M = {}
 M.find_closest_function = function(node)
   while node ~= nil do
     local type = node:type()
-    if type == "function_declaration" or type == "method_declaration" then
+    if type == "function_declaration" or type == "method_declaration" or type == "func_literal" then
       break
     end
 
