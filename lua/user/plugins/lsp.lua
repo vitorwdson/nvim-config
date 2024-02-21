@@ -63,7 +63,7 @@ return {
           },
         },
         emmet_ls = {
-          filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "svelte", "pug",
+          filetypes = { "html", "javascriptreact", "svelte", "pug",
             "typescriptreact", "vue", "htmldjango", "templ" },
           init_options = {
             html = {
