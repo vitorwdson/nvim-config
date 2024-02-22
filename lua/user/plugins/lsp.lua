@@ -87,6 +87,13 @@ return {
             },
           },
         },
+        ruff_lsp =  {
+          init_options = {
+            settings = {
+              args = {},
+            }
+          }
+        },
         tsserver = {},
         taplo = {},
         biome = {
