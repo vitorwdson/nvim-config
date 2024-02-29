@@ -15,8 +15,13 @@ if file == nil then
   return
 end
 
+local language = ts.language.get_lang("go")
+if language == nil then
+  return
+end
+
 local query_string = file:read("*a")
-local query = ts.query.parse("go", query_string)
+local query = ts.query.parse(language, query_string)
 
 ---@param node TSNode
 local function run_formatter(node)
