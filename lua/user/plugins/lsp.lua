@@ -17,7 +17,12 @@ return {
       'nanotee/sqls.nvim',
     },
     config = function()
-      local on_attach = function(_, bufnr)
+      local on_attach = function(client, bufnr)
+        if client.name == 'ruff_lsp' then
+          -- Disable hover in favor of Pyright
+          client.server_capabilities.hoverProvider = false
+        end
+
         local nmap = function(keys, func, desc)
           if desc then
             desc = 'LSP: ' .. desc
@@ -79,6 +84,10 @@ return {
         html = { filetypes = { 'html', 'twig', 'hbs', 'templ' } },
         jsonls = {},
         pyright = {
+          pyright = {
+            -- Using Ruff's import organizer
+            disableOrganizeImports = true,
+          },
           python = {
             analysis = {
               autoSearchPaths = true,
