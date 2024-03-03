@@ -62,9 +62,17 @@ return {
 
       local servers = {
         lua_ls = {
-          Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
+          settings = {
+            Lua = {
+              runtime = { version = 'LuaJIT' },
+              workspace = {
+                checkThirdParty = false,
+                library = {
+                  '${3rd}/luv/library',
+                  unpack(vim.api.nvim_get_runtime_file('', true)),
+                },
+              },
+            },
           },
         },
         emmet_ls = {
@@ -96,7 +104,7 @@ return {
             },
           },
         },
-        ruff_lsp =  {
+        ruff_lsp = {
           init_options = {
             settings = {
               args = {},
@@ -133,7 +141,11 @@ return {
       end
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+      capabilities = vim.tbl_deep_extend(
+        'force',
+        capabilities,
+        require('cmp_nvim_lsp').default_capabilities()
+      )
 
       local mason_lspconfig = require 'mason-lspconfig'
 

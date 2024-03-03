@@ -1,6 +1,9 @@
 -- Enable break indent
 vim.o.breakindent = true
 
+-- Hide mode (lualine will display it)
+vim.opt.showmode = false
+
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
