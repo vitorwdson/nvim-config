@@ -20,20 +20,15 @@ local lualine_filetype = {
 
 return {
   {
-    -- Theme inspired by Atom
-    'Mofiqul/dracula.nvim',
+    "folke/tokyonight.nvim",
+    lazy = false,
     priority = 1000,
     config = function()
-      require('dracula').setup({
-        colors = {},
-        show_end_of_buffer = true,    -- default false
-        transparent_bg = true,        -- default false
-        lualine_bg_color = "#44475a", -- default nil
-        italic_comment = true,        -- default false
-        overrides = {
-        },
+      require('tokyonight').setup({
+        transparent = true,
       })
-      vim.cmd.colorscheme 'dracula'
+
+      vim.cmd.colorscheme('tokyonight-moon')
     end,
   },
 
@@ -41,31 +36,73 @@ return {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
-    opts = {
-      options = {
-        icons_enabled = true,
-        theme = 'dracula',
-        component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = '' },
-        global_status = true,
-      },
-      winbar = {
-        lualine_b = {
-          lualine_filetype,
+    config = function()
+      local lualine = require('lualine')
+      local theme = require("lualine.themes.tokyonight")
+
+      theme.normal.c.bg = nil
+      theme.inactive = theme.normal
+
+      lualine.setup({
+        options = {
+          icons_enabled = true,
+          theme = theme,
+          component_separators = { left = '', right = '' },
+          section_separators = { left = '', right = '' },
+          global_status = true,
         },
-        lualine_c = {
-          'diagnostics',
+        winbar = {
+          lualine_b = {
+            lualine_filetype,
+          },
+          lualine_c = {
+            {
+              'diagnostics',
+              draw_empty = true,
+            },
+          },
         },
-      },
-      inactive_winbar = {
-        lualine_b = {
-          lualine_filetype,
+        inactive_winbar = {
+          lualine_b = {
+            lualine_filetype,
+          },
+          lualine_c = {
+            {
+              'diagnostics',
+              draw_empty = true,
+            },
+          },
         },
-      },
-      sections = {
-        lualine_c = {},
-      },
-    },
+        sections = {
+          lualine_c = {},
+        },
+      })
+    end
+  },
+
+  {
+    "lukas-reineke/virt-column.nvim",
+    config = function()
+      require("virt-column").setup({
+        enable = true,
+        virtcolumn = "81",
+        highlight = "VirtColumn",
+        exclude = {
+          filetypes = {
+            "lspinfo",
+            "packer",
+            "checkhealth",
+            "help",
+            "man",
+            "gitcommit",
+            "TelescopePrompt",
+            "TelescopeResults",
+            "netrw",
+          },
+        },
+      })
+      vim.api.nvim_set_hl(0, "VirtColumn", { bg = nil })
+    end,
   },
 
   {
@@ -130,7 +167,7 @@ return {
     'prichrd/netrw.nvim',
     config = function()
       require 'netrw'.setup {
-        use_devicons = true, -- Uses nvim-web-devicons if true, otherwise use the file icon specified above
+        use_devicons = true,
       }
       vim.g.netrw_browse_split = 0
       vim.g.netrw_banner = 0
@@ -145,5 +182,10 @@ return {
     end
   },
 
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  {
+    'folke/todo-comments.nvim',
+    event = 'VimEnter',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    opts = { signs = false },
+  },
 }

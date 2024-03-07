@@ -140,6 +140,7 @@ return {
         zindex = 20,     -- The Z-index of the context window
         on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
       }
+      vim.api.nvim_set_hl(0, "TreesitterContext", { bg = nil, underline = true })
 
       vim.keymap.set("n", "<leader>tsp", ":TSPlaygroundToggle<CR>")
     end
