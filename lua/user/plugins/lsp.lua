@@ -124,6 +124,9 @@ return {
         sqls = {
           filetypes = { "sql" },
         },
+        marksman = {
+          filetypes = { "md" },
+        },
       }
 
       require('neodev').setup()
