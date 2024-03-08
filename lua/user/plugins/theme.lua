@@ -20,15 +20,27 @@ local lualine_filetype = {
 
 return {
   {
-    "folke/tokyonight.nvim",
-    lazy = false,
+    -- Theme inspired by Atom
+    'Mofiqul/dracula.nvim',
     priority = 1000,
     config = function()
-      require('tokyonight').setup({
-        transparent = true,
+      local dracula = require('dracula')
+      local colors = require('dracula.palette')
+
+      dracula.setup({
+        colors = {},
+        show_end_of_buffer = true,
+        transparent_bg = true,
+        lualine_bg_color = nil,
+        italic_comment = true,
+        overrides = {
+        },
       })
 
-      vim.cmd.colorscheme('tokyonight-moon')
+      vim.cmd.colorscheme 'dracula'
+      vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { bg = colors.bg, fg = colors.comment })
+      vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { bg = colors.bg, fg = colors.comment })
+      vim.api.nvim_set_hl(0, "TelescopePromptBorder", { bg = colors.bg, fg = colors.comment })
     end,
   },
 
@@ -38,10 +50,8 @@ return {
     -- See `:help lualine.txt`
     config = function()
       local lualine = require('lualine')
-      local theme = require("lualine.themes.tokyonight")
-
-      theme.normal.c.bg = nil
-      theme.inactive = theme.normal
+      local theme = require("lualine.themes.dracula")
+      -- theme.normal.c.bg = nil
 
       lualine.setup({
         options = {
