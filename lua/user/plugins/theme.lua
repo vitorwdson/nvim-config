@@ -20,28 +20,85 @@ local lualine_filetype = {
 
 return {
   {
-    -- Theme inspired by Atom
-    'Mofiqul/dracula.nvim',
+    "catppuccin/nvim",
+    name = "catppuccin",
     priority = 1000,
     config = function()
-      local dracula = require('dracula')
-      local colors = require('dracula.palette')
-
-      dracula.setup({
-        colors = {},
-        show_end_of_buffer = true,
-        transparent_bg = true,
-        lualine_bg_color = nil,
-        italic_comment = true,
-        overrides = {
+      require("catppuccin").setup({
+        flavour = "macchiato", -- latte, frappe, macchiato, mocha
+        background = {     -- :h background
+          light = "latte",
+          dark = "mocha",
+        },
+        transparent_background = true, -- disables setting the backgr'und color.
+        show_end_of_buffer = false,    -- shows the '~' characters after the end of buffers
+        term_colors = false,           -- sets terminal colors (e.g. `g:terminal_color_0`)
+        dim_inactive = {
+          enabled = false,             -- dims the background color of inactive window
+          shade = "dark",
+          percentage = 0.15,           -- percentage of the shade to apply to the inactive window
+        },
+        no_italic = false,             -- Force no italic
+        no_bold = false,               -- Force no bold
+        no_underline = false,          -- Force no underline
+        styles = {                     -- Handles the styles of general hi groups (see `:h highlight-args`):
+          comments = { "italic" },     -- Change the style of comments
+          conditionals = { "italic" },
+          loops = {},
+          functions = {},
+          keywords = {},
+          strings = {},
+          variables = {},
+          numbers = {},
+          booleans = {},
+          properties = {},
+          types = {},
+          operators = {},
+          -- miscs = {}, -- Uncomment to turn off hard-coded styles
+        },
+        color_overrides = {},
+        custom_highlights = {},
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          treesitter = true,
+          treesitter_context = true,
+          mason = true,
+          telescope = true,
+          harpoon = true,
+          indent_blankline = {
+            enabled = true,
+            scope_color = "", -- catppuccin color (eg. `lavender`) Default: text
+            colored_indent_levels = false,
+          },
+          native_lsp = {
+            enabled = true,
+            virtual_text = {
+              errors = { "italic" },
+              hints = { "italic" },
+              warnings = { "italic" },
+              information = { "italic" },
+            },
+            underlines = {
+              errors = { "underline" },
+              hints = { "underline" },
+              warnings = { "underline" },
+              information = { "underline" },
+            },
+            inlay_hints = {
+              background = true,
+            },
+          },
+          lsp_trouble = false,
+          illuminate = {
+            enabled = true,
+            lsp = false
+          }
         },
       })
 
-      vim.cmd.colorscheme 'dracula'
-      vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { bg = colors.bg, fg = colors.comment })
-      vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { bg = colors.bg, fg = colors.comment })
-      vim.api.nvim_set_hl(0, "TelescopePromptBorder", { bg = colors.bg, fg = colors.comment })
-    end,
+      vim.cmd.colorscheme 'catppuccin'
+    end
   },
 
   {
@@ -50,15 +107,13 @@ return {
     -- See `:help lualine.txt`
     config = function()
       local lualine = require('lualine')
-      local theme = require("lualine.themes.dracula")
-      -- theme.normal.c.bg = nil
 
       lualine.setup({
         options = {
           icons_enabled = true,
-          theme = theme,
-          component_separators = { left = '', right = '' },
-          section_separators = { left = '', right = '' },
+          theme = "catppuccin",
+          component_separators = { left = '', right = '' },
+          section_separators = { left = '', right = '' },
           global_status = true,
         },
         winbar = {
