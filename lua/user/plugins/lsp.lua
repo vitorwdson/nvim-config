@@ -113,9 +113,10 @@ return {
         },
         tsserver = {},
         taplo = {},
-        biome = {
-          cmd = { 'biome', 'lsp-proxy', '--config-path=' .. vim.fn.stdpath("config") .. '/biome.json' },
-        },
+        -- biome = {
+        --   cmd = { 'biome', 'lsp-proxy', '--config-path=' .. vim.fn.stdpath("config") },
+        --   root_dir = require('lspconfig').util.root_pattern('biome.json', 'biome.jsonc', 'package.json'),
+        -- },
         tailwindcss = {
           filetypes = { "html", "javascriptreact", "svelte", "typescriptreact", "vue", "htmldjango", "templ" },
           init_options = { userLanguages = { templ = "html" } },
