@@ -12,12 +12,19 @@ return {
 
       -- Adds filesytem path completions
       'hrsh7th/cmp-path',
+
+      -- Add copilot completions
+      "zbirenbaum/copilot-cmp",
+
+      -- Adds icons to completion items
+      "onsails/lspkind.nvim",
     },
     config = function()
       -- [[ Configure nvim-cmp ]]
       -- See `:help cmp`
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
+      local lspkind = require("lspkind")
       luasnip.config.setup {}
 
       cmp.setup {
@@ -52,7 +59,17 @@ return {
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
+          { name = "copilot", group_index = 2 },
         },
+        formatting = {
+          format = lspkind.cmp_format({
+            mode = "symbol",
+            max_width = 50,
+            symbol_map = { Copilot = "" },
+            ellipsis_char = '...',
+            show_labelDetails = true,
+          })
+        }
       }
     end
   },
