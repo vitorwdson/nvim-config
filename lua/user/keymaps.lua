@@ -35,3 +35,5 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "<leader>r", ":source ~/.config/nvim/init.lua<CR>")
 vim.keymap.set("n", "<leader><leader>x", ":source %<CR>")
+
+vim.keymap.set("i", "<C-u>", "<Nop>")
