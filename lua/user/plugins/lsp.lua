@@ -108,7 +108,9 @@ return {
         ruff_lsp = {
           init_options = {
             settings = {
-              args = {},
+              args = {
+                "--config=" .. vim.fn.stdpath("config") .. "/ruff.toml",
+              },
             }
           }
         },
