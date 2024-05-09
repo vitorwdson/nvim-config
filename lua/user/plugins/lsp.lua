@@ -101,7 +101,7 @@ return {
               autoSearchPaths = true,
               useLibraryCodeForTypes = true,
               diagnosticMode = 'openFilesOnly',
-              ignore = { '*' },
+              -- ignore = { '*' },
             },
           },
         },
