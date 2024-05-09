@@ -215,15 +215,57 @@ return {
         end
 
         if vim.bo.filetype == "python" then
-          vim.lsp.buf.code_action({
-            context = {
-              only = { 'source.fixAll.ruff' },
-            },
-            apply = true,
-          })
+          local clients = vim.lsp.get_clients()
+          ---@type vim.lsp.Client
+          local ruff = nil
+          for _, client in ipairs(clients) do
+            if client.name == "ruff_lsp" then
+              ruff = client
+              break
+            end
+          end
+
+          if ruff == nil then
+            return
+          end
 
           opts.filter = function(client)
             return client.name == "ruff_lsp"
+          end
+
+          local bufnr = vim.api.nvim_get_current_buf()
+          local params = vim.lsp.util.make_range_params()
+
+          params.context = {
+            triggerKind = vim.lsp.protocol.CodeActionTriggerKind.Invoked,
+            diagnostics = vim.lsp.diagnostic.get_line_diagnostics(),
+          }
+
+          local actions = ruff.request_sync(
+            "textDocument/codeAction",
+            params,
+            5000,
+            bufnr
+          )
+
+          if actions ~= nil and actions["result"] ~= nil then
+            local fix_all = nil
+            for _, action in ipairs(actions["result"]) do
+              if action["kind"] == "source.fixAll" then
+                fix_all = action
+                break
+              end
+            end
+
+            if fix_all ~= nil then
+              fix_all.title = fix_all.title:gsub("\r\n", "\\r\\n")
+              fix_all.title = fix_all.title:gsub("\n", "\\n")
+
+              local result = ruff.request_sync("codeAction/resolve", fix_all, 5000, bufnr)
+              if result ~= nil and result["result"] ~= nil then
+                vim.lsp.util.apply_workspace_edit(result.result.edit, ruff.offset_encoding)
+              end
+            end
           end
         end
 
