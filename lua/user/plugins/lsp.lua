@@ -75,16 +75,15 @@ return {
             },
           },
         },
-        emmet_ls = {
-          filetypes = { "html", "javascriptreact", "svelte", "pug",
-            "typescriptreact", "vue", "htmldjango", "templ" },
-          init_options = {
-            html = {
-              options = {
-                ["bem.enabled"] = true,
-              },
-            },
-          }
+        emmet_language_server = {
+          filetypes = {
+            "html",
+            "javascriptreact",
+            "typescriptreact",
+            "htmldjango",
+            "templ",
+          },
+          init_options = {}
         },
         gopls = {
           gofumpt = true,
