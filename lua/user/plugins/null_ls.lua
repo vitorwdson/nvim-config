@@ -14,6 +14,7 @@ return {
         "sql-formatter",
         "gofumpt",
         "goimports",
+        "golines",
       }
 
       require("mason").setup()
@@ -50,6 +51,7 @@ return {
             },
           }),
           null_ls.builtins.formatting.goimports,
+          null_ls.builtins.formatting.golines,
           null_ls.builtins.formatting.gofumpt,
         },
       })
