@@ -15,6 +15,7 @@ return {
         "gofumpt",
         "goimports",
         "golines",
+        "typescript-language-server",
       }
 
       require("mason").setup()
