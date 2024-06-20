@@ -5,25 +5,27 @@ return {
   },
   config = function()
     local trouble = require('trouble')
-    trouble.setup()
+    trouble.setup({
+      auto_refresh = false,
+    })
 
 
     vim.keymap.set(
       'n',
-      '[d',
-      function ()
-        trouble.open()
-        trouble.previous({skip_groups = true, jump = true})
+      '[t',
+      function()
+        trouble.open("diagnostics")
+        trouble.prev({ skip_groups = true, jump = true, refresh = false })
       end,
       { desc = 'Go to previous diagnostic message' }
     )
 
     vim.keymap.set(
       'n',
-      ']d',
-      function ()
-        trouble.open()
-        trouble.next({skip_groups = true, jump = true})
+      ']t',
+      function()
+        trouble.open("diagnostics")
+        trouble.next({ skip_groups = true, jump = true, refresh = false })
       end,
       { desc = 'Go to next diagnostic message' }
     )
@@ -31,9 +33,10 @@ return {
     vim.keymap.set(
       'n',
       '<leader>dq',
-      trouble.toggle,
+      function()
+        trouble.toggle("diagnostics")
+      end,
       { desc = 'Open diagnostics list' }
     )
-    
   end
 }
