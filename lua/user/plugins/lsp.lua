@@ -262,6 +262,7 @@ return {
           filter = function(client)
             return client.name ~= 'sqls'
           end,
+          async = false,
         }
 
         if vim.bo.filetype == "templ" then
@@ -334,7 +335,6 @@ return {
         if vim.tbl_contains({ "javascript", "javascriptreact", "typescript", "typescriptreact" }, vim.bo.filetype) then
           local commands = {
             "TSToolsOrganizeImports",
-            "TSToolsFixAll",
           }
 
           for _, cmd in pairs(commands) do
