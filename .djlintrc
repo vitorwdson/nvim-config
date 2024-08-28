@@ -1,0 +1,16 @@
+{
+	"blank_line_after_tag": "load,extends,include",
+	"blank_line_before_tag": "load,extends,include",
+	"format_attribute_template_tags": true,
+	"format_css": true,
+	"css": {
+		"indent_size": 4
+	},
+	"format_js": true,
+	"js": {
+		"indent_size": 4
+	},
+	"ignore_case": true,
+	"max_blank_lines": 2,
+	"profile": "django"
+}
