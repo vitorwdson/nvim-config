@@ -1,6 +1,6 @@
 {
-	"blank_line_after_tag": "load,extends,include",
-	"blank_line_before_tag": "load,extends,include",
+	"blank_line_after_tag": "load,extends",
+	"blank_line_before_tag": "load,extends",
 	"format_attribute_template_tags": true,
 	"format_css": true,
 	"css": {
@@ -12,5 +12,6 @@
 	},
 	"ignore_case": true,
 	"max_blank_lines": 2,
-	"profile": "django"
+	"profile": "django",
+    "max_line_length": 80
 }
