@@ -14,6 +14,7 @@ return {
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
 
+      'mattn/vim-goaddtags',
       'nanotee/sqls.nvim',
       "nvim-lua/plenary.nvim",
       "pmizio/typescript-tools.nvim",
