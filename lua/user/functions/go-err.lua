@@ -68,8 +68,6 @@ local function insert_go_error_handling()
     local type = ts.get_node_text(node, 0)
     local value = type_values[type]
 
-    print(type, value)
-
     -- If the type is not in the type_values table it's probably a struct or an interface
     if not value then
       if string.sub(type, 1, 1) == "*" then
