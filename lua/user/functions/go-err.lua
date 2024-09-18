@@ -49,7 +49,7 @@ local function insert_go_error_handling()
     return
   end
 
-  local next_line = curr_node:start() + 1
+  local next_line = vim.api.nvim_win_get_cursor(0)[1]
   local assignment = ts_utils.find_closest_assignment(curr_node)
   if assignment ~= nil then
     next_line = ts.get_range(assignment, 0)[4] + 1
