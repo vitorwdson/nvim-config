@@ -13,6 +13,7 @@ local query_string = [[
         type: [
           (type_identifier)
           (pointer_type)
+          (slice_type)
         ] @type ))])
 ]]
 
@@ -48,9 +49,11 @@ local function insert_go_error_handling()
     return
   end
 
-  -- TODO: Check if the current line starts a multi-line block (e.g. a function call)
-  -- and adds the error handling after it ends
   local next_line = curr_node:start() + 1
+  local assignment = ts_utils.find_closest_assignment(curr_node)
+  if assignment ~= nil then
+    next_line = ts.get_range(assignment, 0)[4] + 1
+  end
 
   local function_node = ts_utils.find_closest_function(curr_node)
   if function_node == nil then
@@ -65,9 +68,15 @@ local function insert_go_error_handling()
     local type = ts.get_node_text(node, 0)
     local value = type_values[type]
 
+    print(type, value)
+
     -- If the type is not in the type_values table it's probably a struct or an interface
     if not value then
       if string.sub(type, 1, 1) == "*" then
+        value = "nil"
+      elseif string.sub(type, 1, 3) == "map" then
+        value = "nil"
+      elseif string.sub(type, 1, 2) == "[]" then
         value = "nil"
       else
         value = type .. "{}"

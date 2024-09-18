@@ -10,6 +10,24 @@ M.find_closest_function = function(node)
       break
     end
 
+    ---@diagnostic disable-next-line: cast-local-type
+    node = node:parent()
+  end
+
+  return node
+end
+
+---Loops through all parent nodes to find the closest variable assignment or declaration
+---@param node TSNode
+---@return TSNode|nil
+M.find_closest_assignment = function(node)
+  while node ~= nil do
+    local type = node:type()
+    if type == "assignment_statement" or type == "short_var_declaration" then
+      break
+    end
+
+    ---@diagnostic disable-next-line: cast-local-type
     node = node:parent()
   end
 
