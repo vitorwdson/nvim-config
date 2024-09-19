@@ -103,7 +103,7 @@ local function format_go_sql()
   for id, node, _ in query:iter_captures(root, 0) do
     local name = query.captures[id]
 
-    if name == "sql" then
+    if name == "injection.content" then
       run_formatter(node)
     end
   end
