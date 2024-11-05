@@ -13,5 +13,6 @@
 	"ignore_case": true,
 	"max_blank_lines": 2,
 	"profile": "django",
-    "max_line_length": 80
+	"max_line_length": 80,
+	"ignore": "H005,H006,H030,H031,H020"
 }
