@@ -29,7 +29,12 @@ return {
         vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#bd93f9" })
       end)
 
-      vim.g.rainbow_delimiters = { highlight = highlight }
+      vim.g.rainbow_delimiters = {
+        highlight = highlight,
+        query = {
+          html = "rainbow-custom",
+        },
+      }
       require("ibl").setup { indent = { highlight = highlight, char = "┊" } }
     end
   },
