@@ -21,7 +21,7 @@ return {
     },
     config = function()
       local on_attach = function(client, bufnr)
-        if client.name == 'ruff_lsp' then
+        if client.name == 'ruff' then
           -- Disable hover in favor of Pyright
           client.server_capabilities.hoverProvider = false
         end
@@ -107,12 +107,10 @@ return {
             },
           },
         },
-        ruff_lsp = {
+        ruff = {
           init_options = {
             settings = {
-              args = {
-                "--config=" .. vim.fn.stdpath("config") .. "/ruff.toml",
-              },
+              configuration = vim.fn.stdpath("config") .. "/ruff.toml",
             }
           }
         },
@@ -277,7 +275,7 @@ return {
           ---@type vim.lsp.Client
           local ruff = nil
           for _, client in ipairs(clients) do
-            if client.name == "ruff_lsp" then
+            if client.name == "ruff" then
               ruff = client
               break
             end
@@ -288,33 +286,24 @@ return {
           end
 
           opts.filter = function(client)
-            return client.name == "ruff_lsp"
+            return client.name == "ruff"
           end
 
           local bufnr = vim.api.nvim_get_current_buf()
           local params = vim.lsp.util.make_range_params()
 
-          params.context = {
-            triggerKind = vim.lsp.protocol.CodeActionTriggerKind.Invoked,
-            diagnostics = vim.lsp.diagnostic.get_line_diagnostics(),
-          }
+          params.context = { triggerKind = vim.lsp.protocol.CodeActionTriggerKind.Invoked, diagnostics = vim.lsp.diagnostic.get_line_diagnostics(), }
 
-          local actions = ruff.request_sync(
-            "textDocument/codeAction",
-            params,
-            5000,
-            bufnr
-          )
+          local actions = ruff.request_sync( "textDocument/codeAction", params, 5000, bufnr)
 
           if actions ~= nil and actions["result"] ~= nil then
             local fix_all = nil
             for _, action in ipairs(actions["result"]) do
-              if action["kind"] == "source.fixAll" then
+              if action["kind"] == "source.fixAll.ruff" then
                 fix_all = action
                 break
               end
             end
-
             if fix_all ~= nil then
               fix_all.title = fix_all.title:gsub("\r\n", "\\r\\n")
               fix_all.title = fix_all.title:gsub("\n", "\\n")
