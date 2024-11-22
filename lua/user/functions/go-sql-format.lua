@@ -109,8 +109,8 @@ local function format_go_sql()
   end
 end
 
-vim.api.nvim_create_user_command(
-  "FormatGoSQL",
-  format_go_sql,
-  { desc = "Formats SQL strings inside go files" }
-)
+-- vim.api.nvim_create_user_command(
+--   "FormatGoSQL",
+--   format_go_sql,
+--   { desc = "Formats SQL strings inside go files" }
+-- )
