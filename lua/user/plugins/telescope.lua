@@ -28,6 +28,16 @@ return {
           ["ui-select"] = {
             require("telescope.themes").get_dropdown {}
           }
+        },
+        pickers = {
+          git_files = {
+            hidden = true,
+            no_ignore = true
+          },
+          find_files = {
+            hidden = true,
+            no_ignore = true
+          }
         }
       }
 
@@ -51,9 +61,7 @@ return {
       vim.keymap.set(
         'n',
         '<leader>pf',
-        function()
-          require('telescope.builtin').find_files({ no_ignore = true })
-        end,
+        require('telescope.builtin').find_files,
         { desc = '[S]earch [F]iles' }
       )
       vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
