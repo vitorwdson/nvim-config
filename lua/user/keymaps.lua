@@ -63,3 +63,7 @@ vim.keymap.set("n", "<A-s-h>", "<C-w>H")
 vim.keymap.set("n", "<A-s-j>", "<C-w>J")
 vim.keymap.set("n", "<A-s-k>", "<C-w>K")
 vim.keymap.set("n", "<A-s-l>", "<C-w>L")
+
+-- Quickfix list
+vim.keymap.set("n", "]c", "<cmd>cnext<cr>")
+vim.keymap.set("n", "[c", "<cmd>cprev<cr>")
