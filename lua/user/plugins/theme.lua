@@ -26,7 +26,7 @@ return {
     config = function()
       require("catppuccin").setup({
         flavour = "macchiato", -- latte, frappe, macchiato, mocha
-        background = {     -- :h background
+        background = {         -- :h background
           light = "latte",
           dark = "mocha",
         },
@@ -139,7 +139,12 @@ return {
           },
         },
         sections = {
-          lualine_c = {},
+          lualine_a = { 'mode' },
+          lualine_b = { 'branch', 'diff', 'diagnostics' },
+          lualine_c = { 'filename' },
+          lualine_x = { 'encoding', 'fileformat', 'filetype' },
+          lualine_y = { 'progress' },
+          lualine_z = { 'searchcount', 'selectioncount', 'location' }
         },
       })
     end
