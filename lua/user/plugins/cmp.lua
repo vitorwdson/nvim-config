@@ -9,9 +9,13 @@ return {
 
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
 
       -- Adds filesytem path completions
       'hrsh7th/cmp-path',
+
+      -- Adds command line completions
+      'hrsh7th/cmp-cmdline',
 
       -- Add copilot completions
       "zbirenbaum/copilot-cmp",
@@ -27,7 +31,7 @@ return {
       local lspkind = require("lspkind")
       luasnip.config.setup {}
 
-      cmp.setup {
+      cmp.setup({
         snippet = {
           expand = function(args)
             luasnip.lsp_expand(args.body)
@@ -57,9 +61,10 @@ return {
         },
         sources = {
           { name = 'nvim_lsp' },
+          { name = 'nvim_lsp_signature_help' },
           { name = 'luasnip' },
           { name = 'path' },
-          { name = "copilot", group_index = 2 },
+          { name = "copilot",                group_index = 2 },
         },
         formatting = {
           format = lspkind.cmp_format({
@@ -70,7 +75,24 @@ return {
             show_labelDetails = true,
           })
         }
-      }
+      })
+
+      cmp.setup.cmdline('/', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' }
+        }
+      })
+
+      cmp.setup.cmdline(':', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = 'path' }
+        }, {
+          { name = 'cmdline' }
+        }),
+        matching = { disallow_symbol_nonprefix_matching = false }
+      })
     end
   },
 }
