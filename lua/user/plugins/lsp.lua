@@ -64,33 +64,9 @@ return {
       end
 
       local servers = {
-        lua_ls = {
-          settings = {
-            Lua = {
-              runtime = { version = 'LuaJIT' },
-              workspace = {
-                checkThirdParty = false,
-                library = {
-                  '${3rd}/luv/library',
-                  unpack(vim.api.nvim_get_runtime_file('', true)),
-                },
-              },
-            },
-          },
-        },
-        emmet_language_server = {
-          filetypes = {
-            "html",
-            "javascriptreact",
-            "typescriptreact",
-            "htmldjango",
-            "templ",
-          },
-          init_options = {}
-        },
-        gopls = {
-          gofumpt = true,
-        },
+        lua_ls = { settings = { Lua = { runtime = { version = 'LuaJIT' }, workspace = { checkThirdParty = false, library = { '${3rd}/luv/library', unpack(vim.api.nvim_get_runtime_file('', true)) } } } } },
+        emmet_language_server = { filetypes = { "html", "javascriptreact", "typescriptreact", "htmldjango", "templ" }, init_options = {} },
+        gopls = {gofumpt = true},
         html = { filetypes = { 'html', 'twig', 'hbs', 'templ' } },
         jsonls = {},
         pyright = {
@@ -158,7 +134,7 @@ return {
       local mason_lspconfig = require 'mason-lspconfig'
 
       mason_lspconfig.setup {
-        ensure_installed = vim.tbl_keys(servers),
+        -- ensure_installed = vim.tbl_keys(servers),
       }
       mason_lspconfig.setup_handlers {
         function(server_name)

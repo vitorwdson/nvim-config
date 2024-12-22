@@ -33,11 +33,11 @@ return {
         end
       end
 
-      if mr.refresh then
-        mr.refresh(ensure_installed)
-      else
-        ensure_installed()
-      end
+      -- if mr.refresh then
+      --   mr.refresh(ensure_installed)
+      -- else
+      --   ensure_installed()
+      -- end
 
       local null_ls = require("null-ls")
       local h = require("null-ls.helpers")
