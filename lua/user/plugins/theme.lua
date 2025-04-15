@@ -205,6 +205,11 @@ return {
             icon = "",
             color = "#519aba",
             name = "GoModule"
+          },
+          ["Dockerfile.*"] = {
+            icon = "󰡨",
+            color = "#418EE4",
+            name = "GoModule"
           }
         },
         override_by_extension = {

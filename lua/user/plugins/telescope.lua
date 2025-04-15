@@ -5,6 +5,7 @@ return {
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-ui-select.nvim',
+      "nvim-telescope/telescope-live-grep-args.nvim",
       {
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make',
@@ -46,6 +47,8 @@ return {
 
       -- Enable telescope fzf native, if installed
       require('telescope').load_extension('ui-select')
+
+      require('telescope').load_extension("live_grep_args")
 
       -- See `:help telescope.builtin`
       vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
