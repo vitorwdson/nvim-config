@@ -237,16 +237,46 @@ return {
       vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float)
 
       local diagnostic_lines = true
-      vim.diagnostic.config({ virtual_lines = true, virtual_text = false })
+      vim.diagnostic.config({
+        virtual_lines = {
+          severity = {
+            vim.diagnostic.severity.ERROR,
+            vim.diagnostic.severity.WARN,
+            vim.diagnostic.severity.INFO,
+          }
+        },
+        virtual_text = {
+          severity = {
+            vim.diagnostic.severity.HINT,
+          }
+        },
+      })
       vim.keymap.set(
         'n',
         '<leader>dt',
         function()
           diagnostic_lines = not diagnostic_lines
-          vim.diagnostic.config({
-            virtual_lines = diagnostic_lines,
-            virtual_text = not diagnostic_lines,
-          })
+          if diagnostic_lines then
+            vim.diagnostic.config({
+              virtual_lines = {
+                severity = {
+                  vim.diagnostic.severity.ERROR,
+                  vim.diagnostic.severity.WARN,
+                  vim.diagnostic.severity.INFO,
+                }
+              },
+              virtual_text = {
+                severity = {
+                  vim.diagnostic.severity.HINT,
+                }
+              },
+            })
+          else
+            vim.diagnostic.config({
+              virtual_lines = false,
+              virtual_text = true,
+            })
+          end
         end,
         { desc = 'Toggle diagnostic mode' }
       )
