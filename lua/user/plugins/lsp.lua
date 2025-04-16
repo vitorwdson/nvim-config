@@ -66,7 +66,7 @@ return {
       local servers = {
         lua_ls = { settings = { Lua = { runtime = { version = 'LuaJIT' }, workspace = { checkThirdParty = false, library = { '${3rd}/luv/library', unpack(vim.api.nvim_get_runtime_file('', true)) } } } } },
         emmet_language_server = { filetypes = { "html", "javascriptreact", "typescriptreact", "htmldjango", "templ" }, init_options = {} },
-        gopls = {gofumpt = true},
+        gopls = { gofumpt = true },
         html = { filetypes = { 'html', 'twig', 'hbs', 'templ' } },
         jsonls = {},
         pyright = {
@@ -131,8 +131,8 @@ return {
         require('cmp_nvim_lsp').default_capabilities()
       )
       capabilities.textDocument.foldingRange = {
-          dynamicRegistration = false,
-          lineFoldingOnly = true
+        dynamicRegistration = false,
+        lineFoldingOnly = true
       }
 
       local mason_lspconfig = require 'mason-lspconfig'
@@ -232,9 +232,24 @@ return {
         },
       }
 
-      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-      vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-      vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+      vim.keymap.set('n', '[d', function() vim.diagnostic.jump({ count = -1 }) end)
+      vim.keymap.set('n', ']d', function() vim.diagnostic.jump({ count = 1 }) end)
+      vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float)
+
+      local diagnostic_lines = true
+      vim.diagnostic.config({ virtual_lines = true, virtual_text = false })
+      vim.keymap.set(
+        'n',
+        '<leader>dt',
+        function()
+          diagnostic_lines = not diagnostic_lines
+          vim.diagnostic.config({
+            virtual_lines = diagnostic_lines,
+            virtual_text = not diagnostic_lines,
+          })
+        end,
+        { desc = 'Toggle diagnostic mode' }
+      )
 
       vim.keymap.set("n", "<leader>f", function()
         local opts = {
@@ -271,11 +286,15 @@ return {
           end
 
           local bufnr = vim.api.nvim_get_current_buf()
-          local params = vim.lsp.util.make_range_params()
+          local params = vim.lsp.util.make_range_params(0, ruff.offset_encoding)
 
-          params.context = { triggerKind = vim.lsp.protocol.CodeActionTriggerKind.Invoked, diagnostics = vim.lsp.diagnostic.get_line_diagnostics(), }
+          --- @diagnostic disable-next-line: inject-field
+          params.context = {
+            triggerKind = vim.lsp.protocol.CodeActionTriggerKind.Invoked,
+            diagnostics = vim.lsp.diagnostic.get_line_diagnostics(),
+          }
 
-          local actions = ruff.request_sync( "textDocument/codeAction", params, 5000, bufnr)
+          local actions = ruff:request_sync("textDocument/codeAction", params, 5000, bufnr)
 
           if actions ~= nil and actions["result"] ~= nil then
             local fix_all = nil
@@ -289,7 +308,7 @@ return {
               fix_all.title = fix_all.title:gsub("\r\n", "\\r\\n")
               fix_all.title = fix_all.title:gsub("\n", "\\n")
 
-              local result = ruff.request_sync("codeAction/resolve", fix_all, 5000, bufnr)
+              local result = ruff:request_sync("codeAction/resolve", fix_all, 5000, bufnr)
               if result ~= nil and result["result"] ~= nil then
                 vim.lsp.util.apply_workspace_edit(result.result.edit, ruff.offset_encoding)
               end
