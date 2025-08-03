@@ -1,16 +1,18 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-vim.keymap.set({ 'n', 'v', 'i' }, '<Up>', '<Nop>', { silent = true })
-vim.keymap.set({ 'n', 'v', 'i' }, '<Down>', '<Nop>', { silent = true })
-vim.keymap.set({ 'n', 'v', 'i' }, '<Left>', '<Nop>', { silent = true })
-vim.keymap.set({ 'n', 'v', 'i' }, '<Right>', '<Nop>', { silent = true })
+-- I don't really need this anymore
+-- vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+-- vim.keymap.set({ 'n', 'v', 'i' }, '<Up>', '<Nop>', { silent = true })
+-- vim.keymap.set({ 'n', 'v', 'i' }, '<Down>', '<Nop>', { silent = true })
+-- vim.keymap.set({ 'n', 'v', 'i' }, '<Left>', '<Nop>', { silent = true })
+-- vim.keymap.set({ 'n', 'v', 'i' }, '<Right>', '<Nop>', { silent = true })
 
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-vim.keymap.set("n", "<leader>e", "<cmd>Oil<cr>")
+-- Will set this on the plugin config
+-- vim.keymap.set("n", "<leader>e", "<cmd>Oil<cr>")
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
@@ -31,9 +33,9 @@ vim.keymap.set("n", "<leader>D", "\"+D")
 
 vim.keymap.set("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
-vim.keymap.set("i", "<C-c>", "<Esc>")
+-- vim.keymap.set("i", "<C-c>", "<Esc>")
 
-vim.keymap.set("n", "<leader>r", ":source ~/.config/nvim/init.lua<CR>")
+-- vim.keymap.set("n", "<leader>r", ":source ~/.config/nvim/init.lua<CR>")
 vim.keymap.set("n", "<leader><leader>x", ":source %<CR>")
 
 vim.keymap.set("i", "<C-u>", "<Nop>")

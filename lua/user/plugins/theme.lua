@@ -1,8 +1,8 @@
 local lualine_filetype = {
-  'filename',
-  file_status = true,    -- Displays file status (readonly status, modified status)
+  "filename",
+  file_status = true, -- Displays file status (readonly status, modified status)
   newfile_status = true, -- Display new file status (new file means no write after created)
-  path = 1,              -- 0: Just the filename
+  path = 1, -- 0: Just the filename
   -- 1: Relative path
   -- 2: Absolute path
   -- 3: Absolute path, with tilde as the home directory
@@ -11,11 +11,11 @@ local lualine_filetype = {
   shorting_target = 40, -- Shortens path to leave 40 spaces in the window
   -- for other components. (terrible name, any suggestions?)
   symbols = {
-    modified = '', -- Text to show when the file is modified.
-    readonly = '', -- Text to show when the file is non-modifiable or readonly.
-    unnamed = '[No Name]', -- Text to show for unnamed buffers.
-    newfile = '', -- Text to show for newly created file before first write
-  }
+    modified = "", -- Text to show when the file is modified.
+    readonly = "", -- Text to show when the file is non-modifiable or readonly.
+    unnamed = "[No Name]", -- Text to show for unnamed buffers.
+    newfile = "", -- Text to show for newly created file before first write
+  },
 }
 
 return {
@@ -26,23 +26,27 @@ return {
     config = function()
       require("catppuccin").setup({
         flavour = "macchiato", -- latte, frappe, macchiato, mocha
-        background = {         -- :h background
+        background = { -- :h background
           light = "latte",
           dark = "mocha",
         },
-        transparent_background = true, -- disables setting the backgr'und color.
-        show_end_of_buffer = false,    -- shows the '~' characters after the end of buffers
-        term_colors = false,           -- sets terminal colors (e.g. `g:terminal_color_0`)
-        dim_inactive = {
-          enabled = false,             -- dims the background color of inactive window
-          shade = "dark",
-          percentage = 0.15,           -- percentage of the shade to apply to the inactive window
+        transparent_background = true, -- disables setting the background color.
+        float = {
+          transparent = false, -- enable transparent floating windows
+          solid = false, -- use solid styling for floating windows, see |winborder|
         },
-        no_italic = false,             -- Force no italic
-        no_bold = false,               -- Force no bold
-        no_underline = false,          -- Force no underline
-        styles = {                     -- Handles the styles of general hi groups (see `:h highlight-args`):
-          comments = { "italic" },     -- Change the style of comments
+        show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
+        term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+        dim_inactive = {
+          enabled = false, -- dims the background color of inactive window
+          shade = "dark",
+          percentage = 0.15, -- percentage of the shade to apply to the inactive window
+        },
+        no_italic = false, -- Force no italic
+        no_bold = false, -- Force no bold
+        no_underline = false, -- Force no underline
+        styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+          comments = { "italic" }, -- Change the style of comments
           conditionals = { "italic" },
           loops = {},
           functions = {},
@@ -58,6 +62,8 @@ return {
         },
         color_overrides = {},
         custom_highlights = {},
+        default_integrations = true,
+        auto_integrations = false,
         integrations = {
           cmp = true,
           gitsigns = true,
@@ -92,28 +98,28 @@ return {
           lsp_trouble = false,
           illuminate = {
             enabled = true,
-            lsp = false
-          }
+            lsp = false,
+          },
+          -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
         },
       })
-
-      vim.cmd.colorscheme 'catppuccin'
-    end
+      vim.cmd.colorscheme("catppuccin")
+    end,
   },
 
   {
     -- Set lualine as statusline
-    'nvim-lualine/lualine.nvim',
+    "nvim-lualine/lualine.nvim",
     -- See `:help lualine.txt`
     config = function()
-      local lualine = require('lualine')
+      local lualine = require("lualine")
 
       lualine.setup({
         options = {
           icons_enabled = true,
           theme = "catppuccin",
-          component_separators = { left = '', right = '' },
-          section_separators = { left = '', right = '' },
+          component_separators = { left = "", right = "" },
+          section_separators = { left = "", right = "" },
           global_status = true,
         },
         winbar = {
@@ -122,7 +128,7 @@ return {
           },
           lualine_c = {
             {
-              'diagnostics',
+              "diagnostics",
               draw_empty = true,
             },
           },
@@ -133,21 +139,21 @@ return {
           },
           lualine_c = {
             {
-              'diagnostics',
+              "diagnostics",
               draw_empty = true,
             },
           },
         },
         sections = {
-          lualine_a = { 'mode' },
-          lualine_b = { 'branch', 'diff', 'diagnostics' },
-          lualine_c = { 'filename' },
-          lualine_x = { 'encoding', 'fileformat', 'filetype' },
-          lualine_y = { 'progress' },
-          lualine_z = { 'searchcount', 'selectioncount', 'location' }
+          lualine_a = { "mode" },
+          lualine_b = { "branch", "diff", "diagnostics" },
+          lualine_c = { "filename" },
+          lualine_x = { "encoding", "fileformat", "filetype" },
+          lualine_y = { "progress" },
+          lualine_z = { "searchcount", "selectioncount", "location" },
         },
       })
-    end
+    end,
   },
 
   {
@@ -176,91 +182,54 @@ return {
   },
 
   {
-    'nvim-tree/nvim-web-devicons',
+    "brenoprata10/nvim-highlight-colors",
     config = function()
-      require 'nvim-web-devicons'.setup {
-        override = {
-          zsh = {
-            icon = "",
-            color = "#428850",
-            cterm_color = "65",
-            name = "Zsh"
-          }
-        },
-        color_icons = true,
-        default = true,
-        strict = true,
-        override_by_filename = {
-          [".gitignore"] = {
-            icon = "",
-            color = "#f1502f",
-            name = "Gitignore"
-          },
-          ["go.sum"] = {
-            icon = "",
-            color = "#519aba",
-            name = "GoModuleChecksum"
-          },
-          ["go.mod"] = {
-            icon = "",
-            color = "#519aba",
-            name = "GoModule"
-          },
-          ["Dockerfile.*"] = {
-            icon = "󰡨",
-            color = "#418EE4",
-            name = "GoModule"
-          }
-        },
-        override_by_extension = {
-          ["log"] = {
-            icon = "",
-            color = "#81e043",
-            name = "Log"
-          },
-          ["env"] = {
-            icon = "",
-            color = "#faf743",
-            name = "Env"
-          },
-          ["env.example"] = {
-            icon = "",
-            color = "#faf743",
-            name = "Env"
-          },
-          ["go"] = {
-            icon = "",
-            color = "#519aba",
-            name = "GoModuleChecksum"
-          },
-        },
-      }
+      require("nvim-highlight-colors").setup({})
     end,
   },
 
   {
-    'prichrd/netrw.nvim',
-    config = function()
-      require 'netrw'.setup {
-        use_devicons = true,
-      }
-      vim.g.netrw_browse_split = 0
-      vim.g.netrw_banner = 0
-      vim.g.netrw_winsize = 25
-    end,
-  },
-
-  {
-    'brenoprata10/nvim-highlight-colors',
-    config = function()
-      require('nvim-highlight-colors').setup {}
-    end
-  },
-
-  {
-    'folke/todo-comments.nvim',
-    event = 'VimEnter',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    "folke/todo-comments.nvim",
+    event = "VimEnter",
+    dependencies = { "nvim-lua/plenary.nvim" },
     opts = { signs = false },
+  },
+
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    dependencies = { "hiphish/rainbow-delimiters.nvim" },
+    main = "ibl",
+    opts = {},
+    config = function()
+      -- indent-blankline configuration
+      local highlight = {
+        "RainbowRed",
+        "RainbowYellow",
+        "RainbowBlue",
+        "RainbowOrange",
+        "RainbowGreen",
+        "RainbowViolet",
+      }
+
+      local hooks = require("ibl.hooks")
+      -- create the highlight groups in the highlight setup hook, so they are reset
+      -- every time the colorscheme changes
+      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+        vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#ff5555" })
+        vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#f1fa8c" })
+        vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#8be9fd" })
+        vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#ffb86c" })
+        vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#50fa7b" })
+        vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#bd93f9" })
+      end)
+
+      vim.g.rainbow_delimiters = {
+        highlight = highlight,
+        query = {
+          html = "rainbow-custom",
+        },
+      }
+      require("ibl").setup({ indent = { highlight = highlight, char = "┊" } })
+    end,
   },
 }

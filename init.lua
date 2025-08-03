@@ -1,6 +1,6 @@
 require('user.opts')
 require('user.keymaps')
-require('user.qol')
+require('user.autocmds')
 require('user.lazy')
 
 require('user.functions')

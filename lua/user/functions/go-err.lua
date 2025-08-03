@@ -1,5 +1,4 @@
 local ts = vim.treesitter
-local parsers = require("nvim-treesitter.parsers")
 local ts_utils = require("user.functions.ts-utils")
 
 -- Get all return types for a function/method
@@ -27,13 +26,13 @@ local type_values = {
   float32 = "0.0",
   flint64 = "0.0",
   string = '""',
-  bool = 'false',
-  error = 'err',
+  bool = "false",
+  error = "err",
 }
 
 local function insert_go_error_handling()
   -- Get the current buffer's parser
-  local parser = parsers.get_parser()
+  local parser = vim.treesitter.get_parser()
   if parser == nil then
     return
   end
@@ -97,8 +96,15 @@ local function insert_go_error_handling()
   vim.api.nvim_buf_set_lines(0, next_line, next_line, false, {
     identation .. "if err != nil {",
     identation .. "\treturn " .. return_string,
-    identation .. "}"
+    identation .. "}",
   })
 end
 
-vim.keymap.set("n", "<leader>ger", insert_go_error_handling)
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "go" },
+  callback = function()
+    vim.schedule(function()
+      vim.keymap.set("n", "<leader>ger", insert_go_error_handling, { buffer = true })
+    end)
+  end,
+})
