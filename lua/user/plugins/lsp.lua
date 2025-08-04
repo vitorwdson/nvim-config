@@ -64,7 +64,22 @@ return {
       end
 
       local servers = {
-        lua_ls = { settings = { Lua = { runtime = { version = 'LuaJIT' }, workspace = { checkThirdParty = false, library = { '${3rd}/luv/library', unpack(vim.api.nvim_get_runtime_file('', true)) } } } } },
+        lua_ls = {
+          settings = {
+            Lua = {
+              runtime = {
+                version = 'LuaJIT',
+              },
+              workspace = {
+                checkThirdParty = false,
+                library = {
+                  '${3rd}/luv/library',
+                  unpack(vim.api.nvim_get_runtime_file('', true)),
+                },
+              },
+            },
+          },
+        },
         emmet_language_server = { filetypes = { "html", "javascriptreact", "typescriptreact", "htmldjango", "templ" }, init_options = {} },
         gopls = { gofumpt = true },
         html = { filetypes = { 'html', 'twig', 'hbs', 'templ' } },
@@ -133,6 +148,10 @@ return {
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
         lineFoldingOnly = true
+      }
+      capabilities.workspace.didChangeWatchedFiles = {
+        dynamicRegistration = true,
+        relativePatternSupport = true,
       }
 
       local mason_lspconfig = require 'mason-lspconfig'
