@@ -51,4 +51,6 @@ return {
   },
 
   "mattn/vim-goaddtags",
+
+  "AndrewRadev/tagalong.vim",
 }
