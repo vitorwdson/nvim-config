@@ -33,8 +33,18 @@ return {
         nerd_font_variant = "mono",
       },
 
-      -- (Default) Only show the documentation popup when manually triggered
-      completion = { documentation = { auto_show = true } },
+      signature = {
+        enabled = true,
+      },
+
+      completion = {
+        documentation = { auto_show = true },
+        accept = {
+          auto_brackets = {
+            enabled = false,
+          }
+        }
+      },
 
       sources = {
         default = { "lsp", "path", "snippets", "buffer", "copilot" },
