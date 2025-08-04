@@ -118,18 +118,22 @@ return {
   },
 
   {
-    "mason-org/mason-lspconfig.nvim",
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = {
+      { "mason-org/mason.nvim", opts = {} },
+      "neovim/nvim-lspconfig",
+    },
     opts = {
       ensure_installed = {
-        "lua_ls",
-        "emmet_language_server",
+        "lua-language-server",
+        "emmet-language-server",
         "gopls",
-        "html",
+        "html-lsp",
         "templ",
-        "jsonls",
+        "json-lsp",
         "pyright",
-        "tailwindcss",
-        "cssls",
+        "tailwindcss-language-server",
+        "css-lsp",
         "sqls",
         "ruff",
         "prettier",
@@ -142,18 +146,9 @@ return {
         "typescript-language-server",
         "djlint",
         "stylua",
-        "goimports",
-        "golines",
-        "gofumpt",
         "biome",
-        "html_beautify",
         "templ",
-        "sql_formatter",
       },
-    },
-    dependencies = {
-      { "mason-org/mason.nvim", opts = {} },
-      "neovim/nvim-lspconfig",
     },
     enabled = function()
       -- Disable for nixos as the language servers should be installed from nixpkgs
