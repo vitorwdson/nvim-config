@@ -18,7 +18,7 @@ return {
     notify_on_error = false,
     formatters_by_ft = {
       lua = { "stylua" },
-      go = { "goimports", "golines", "gofumpt" },
+      go = { "goimports", "golines", "gofumpt" }, -- TODO: make a custom formatter that calls :FormatGoSQL
       python = { "ruff_fix", "ruff_organize_imports", "ruff_format" },
       htmldjango = { "djlint" },
       json = { "jq" },
@@ -76,6 +76,65 @@ return {
           "-c",
           vim.fn.stdpath("config") .. "/sql-formatter.json",
         },
+      },
+      ruff_fix = {
+        args = {
+          "check",
+          "--config",
+          vim.fn.stdpath("config") .. "/ruff.toml",
+          "--fix",
+          "--force-exclude",
+          "--exit-zero",
+          "--no-cache",
+          "--stdin-filename",
+          "$FILENAME",
+          "-",
+        },
+      },
+      ruff_organize_imports = {
+        args = {
+          "check",
+          "--config",
+          vim.fn.stdpath("config") .. "/ruff.toml",
+          "--fix",
+          "--force-exclude",
+          "--select=I001",
+          "--exit-zero",
+          "--no-cache",
+          "--stdin-filename",
+          "$FILENAME",
+          "-",
+        },
+      },
+      ruff_format = {
+        args = {
+          "format",
+          "--config",
+          vim.fn.stdpath("config") .. "/ruff.toml",
+          "--force-exclude",
+          "--stdin-filename",
+          "$FILENAME",
+          "-",
+        },
+        range_args = function(self, ctx)
+          return {
+            "format",
+            "--config",
+            vim.fn.stdpath("config") .. "/ruff.toml",
+            "--force-exclude",
+            "--range",
+            string.format(
+              "%d:%d-%d:%d",
+              ctx.range.start[1],
+              ctx.range.start[2] + 1,
+              ctx.range["end"][1],
+              ctx.range["end"][2] + 1
+            ),
+            "--stdin-filename",
+            "$FILENAME",
+            "-",
+          }
+        end,
       },
     },
   },
