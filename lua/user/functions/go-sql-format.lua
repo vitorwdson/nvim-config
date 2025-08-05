@@ -15,7 +15,7 @@ end
 ---@type TSQuery|nil
 local query = nil
 ---@return TSQuery | nil
-local load_query = function ()
+local load_query = function()
   local file_path = vim.fn.stdpath("config") .. "/queries/go/injections.scm"
   local file = io.open(file_path, "r")
   if file == nil then
@@ -33,16 +33,17 @@ local load_query = function ()
   return query
 end
 
-
 ---@param node TSNode
+---@return integer
 local function run_formatter(node)
   local start_line, start_col, end_line, end_col = node:range()
   local unformatted_text = vim.api.nvim_buf_get_text(0, start_line, start_col + 1, end_line, end_col - 1, {})
+  print(vim.inspect(unformatted_text))
   local formatted_text = {}
   local errors = { "Error formatting SQL strings: " }
 
   local job = vim.fn.jobstart(sql_formatter_cmd, {
-    on_stdout = function(job_id, data, name)
+    on_stdout = function(_, data, _)
       for _, line in ipairs(data) do
         if line ~= "" then
           table.insert(formatted_text, line)
@@ -50,7 +51,7 @@ local function run_formatter(node)
       end
     end,
 
-    on_stderr = function(job_id, data, name)
+    on_stderr = function(_, data, _)
       for _, line in ipairs(data) do
         if line ~= "" then
           table.insert(errors, line)
@@ -58,7 +59,7 @@ local function run_formatter(node)
       end
     end,
 
-    on_exit = function(job_id, exit_code, event_type)
+    on_exit = function(_, exit_code, _)
       if exit_code ~= 0 then
         error(table.concat(errors, "\n"))
         return
@@ -78,6 +79,8 @@ local function run_formatter(node)
 
   vim.fn.chansend(job, unformatted_text)
   vim.fn.chanclose(job, "stdin")
+  local result = vim.fn.jobwait({ job }, 1000)
+  return result[1]
 end
 
 local function format_go_sql()
@@ -104,12 +107,23 @@ local function format_go_sql()
   local tree = parser:parse()[1]
   local root = tree:root()
 
+  ---@type TSNode[]
+  local captured_nodes = {}
+
   ---@diagnostic disable-next-line: missing-parameter
   for id, node, _ in query:iter_captures(root, 0) do
     local name = query.captures[id]
 
     if name == "injection.content" then
-      run_formatter(node)
+      table.insert(captured_nodes, node)
+    end
+  end
+
+  for i = #captured_nodes, 1, -1 do
+    local node = captured_nodes[i]
+    local code = run_formatter(node)
+    if code ~= 0 then
+      break
     end
   end
 end
