@@ -15,7 +15,7 @@ return {
       vim.lsp.enable("htmx")
       vim.lsp.enable("jsonls")
       vim.lsp.enable("lua_ls")
-      vim.lsp.enable("pyright")
+      vim.lsp.enable("basedpyright")
       vim.lsp.enable("ruff")
       vim.lsp.enable("sqls")
       vim.lsp.enable("tailwindcss")
@@ -131,7 +131,7 @@ return {
         "html-lsp",
         "templ",
         "json-lsp",
-        "pyright",
+        "basedpyright",
         "tailwindcss-language-server",
         "css-lsp",
         "sqls",
