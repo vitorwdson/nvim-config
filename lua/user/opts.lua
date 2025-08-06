@@ -46,7 +46,6 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
--- I will try without this and see if I like it better
--- vim.o.cmdheight = 0
+vim.o.cmdheight = 0
 
 vim.opt.winborder = "rounded"

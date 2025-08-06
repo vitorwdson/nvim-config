@@ -114,6 +114,15 @@ return {
     config = function()
       local lualine = require("lualine")
 
+      local function show_macro_recording()
+        local recording_register = vim.fn.reg_recording()
+        if recording_register == "" then
+          return ""
+        else
+          return "Recording @" .. recording_register
+        end
+      end
+
       lualine.setup({
         options = {
           icons_enabled = true,
@@ -148,10 +157,45 @@ return {
           lualine_a = { "mode" },
           lualine_b = { "branch", "diff", "diagnostics" },
           lualine_c = { "filename" },
-          lualine_x = { "encoding", "fileformat", "filetype" },
+          lualine_x = {
+            {
+              "macro-recording",
+              fmt = show_macro_recording,
+            },
+            "encoding",
+            "fileformat",
+            "filetype",
+          },
           lualine_y = { "progress" },
-          lualine_z = { "searchcount", "selectioncount", "location" },
+          lualine_z = { "selectioncount", "location" },
         },
+      })
+
+      vim.api.nvim_create_autocmd("RecordingEnter", {
+        callback = function()
+          lualine.refresh({
+            place = { "statusline" },
+          })
+        end,
+      })
+
+      vim.api.nvim_create_autocmd("RecordingLeave", {
+        callback = function()
+          local timer = vim.uv.new_timer()
+          if timer == nil then
+            return
+          end
+
+          timer:start(
+            50,
+            0,
+            vim.schedule_wrap(function()
+              lualine.refresh({
+                place = { "statusline" },
+              })
+            end)
+          )
+        end,
       })
     end,
   },
@@ -230,6 +274,48 @@ return {
         },
       }
       require("ibl").setup({ indent = { highlight = highlight, char = "┊" } })
+    end,
+  },
+
+  {
+    "kevinhwang91/nvim-hlslens",
+    config = function()
+      require("hlslens").setup()
+
+      local kopts = { noremap = true, silent = true }
+
+      vim.api.nvim_set_keymap(
+        "n",
+        "n",
+        [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR>zzzv<Cmd>lua require('hlslens').start()<CR>]],
+        kopts
+      )
+      vim.api.nvim_set_keymap(
+        "n",
+        "N",
+        [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR>zzzv<Cmd>lua require('hlslens').start()<CR>]],
+        kopts
+      )
+      vim.api.nvim_set_keymap("n", "*", [[*zzzv<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap("n", "#", [[#zzzv<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap("n", "g*", [[g*zzzv<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap("n", "g#", [[g#zzzv<Cmd>lua require('hlslens').start()<CR>]], kopts)
+
+      vim.on_key(function(char)
+        if vim.fn.mode() == "n" then
+          if vim.tbl_contains({ "<CR>", "n", "N", "*", "#", "?", "/" }, vim.fn.keytrans(char)) then
+            vim.opt.hlsearch = true
+          elseif
+            vim.v.hlsearch == 1
+            and vim.tbl_contains(
+              { "<space>", "h", "j", "k", "l", "<up>", "<down>", "<left>", "<right>", "<esc>" },
+              vim.fn.keytrans(char)
+            )
+          then
+            vim.opt.hlsearch = false
+          end
+        end
+      end, vim.api.nvim_create_namespace("auto_hlsearch"))
     end,
   },
 }
