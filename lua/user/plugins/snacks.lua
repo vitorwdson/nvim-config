@@ -10,6 +10,9 @@ return {
     lazygit = { enabled = true },
     rename = { enabled = true },
   },
+  keys = {
+    {"<leader>lg", function() Snacks.lazygit.open() end},
+  },
   init = function()
     vim.api.nvim_create_autocmd("User", {
       pattern = "OilActionsPost",
