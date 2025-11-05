@@ -6,7 +6,12 @@ return {
   opts = {
     bigfile = { enabled = true },
     dashboard = { enabled = true },
-    image = { enabled = true },
+    image = {
+      enabled = true,
+      doc = {
+        enabled = false,
+      },
+    },
     lazygit = { enabled = true },
     rename = { enabled = true },
   },
