@@ -148,6 +148,7 @@ return {
         "stylua",
         "biome",
         "templ",
+        "bandit",
       },
     },
     enabled = function()

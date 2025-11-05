@@ -3,6 +3,7 @@ return {
   config = function()
     require('lint').linters_by_ft = {
       htmldjango = {'djlint'},
+      python = {'bandit'},
     }
 
     local djlint = require("lint").linters.djlint
