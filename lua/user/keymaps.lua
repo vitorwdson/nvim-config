@@ -1,5 +1,5 @@
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 -- I don't really need this anymore
 -- vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
@@ -8,8 +8,8 @@ vim.g.maplocalleader = ' '
 -- vim.keymap.set({ 'n', 'v', 'i' }, '<Left>', '<Nop>', { silent = true })
 -- vim.keymap.set({ 'n', 'v', 'i' }, '<Right>', '<Nop>', { silent = true })
 
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Will set this on the plugin config
 -- vim.keymap.set("n", "<leader>e", "<cmd>Oil<cr>")
@@ -23,13 +23,13 @@ vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("x", "<leader>p", "\"_dP")
+vim.keymap.set("x", "<leader>p", '"_dP')
 
-vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y")
-vim.keymap.set("n", "<leader>Y", "\"+Y")
+vim.keymap.set({ "n", "v" }, "<leader>y", '"+y')
+vim.keymap.set("n", "<leader>Y", '"+Y')
 
-vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d")
-vim.keymap.set("n", "<leader>D", "\"+D")
+vim.keymap.set({ "n", "v" }, "<leader>d", '"_d')
+vim.keymap.set("n", "<leader>D", '"+D')
 
 vim.keymap.set("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
@@ -69,3 +69,45 @@ vim.keymap.set("n", "<A-s-l>", "<C-w>L")
 -- Quickfix list
 vim.keymap.set("n", "]c", "<cmd>cnext<cr>")
 vim.keymap.set("n", "[c", "<cmd>cprev<cr>")
+
+-- Python type: ignore comment command
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "python" },
+  callback = function()
+    vim.schedule(function()
+      vim.keymap.set("n", "<leader>ti", "<esc>A  # type:ignore<esc>", { buffer = true })
+    end)
+  end,
+})
+
+-- Djangohtml form field
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "htmldjango" },
+  callback = function()
+    vim.schedule(function()
+      vim.keymap.set("n", "<leader>dff", function()
+        vim.ui.input({ prompt = "Field name: " }, function(field)
+          if field == nil then
+            return
+          end
+
+          local form_name = "form"
+          local dot_idx = field:find("%.")
+          if dot_idx ~= nil then
+            form_name = field:sub(1, dot_idx - 1)
+            field = field:sub(dot_idx + 1)
+          end
+
+          local field_name = form_name .. "." .. field
+          local next_line = vim.api.nvim_win_get_cursor(0)[1]
+          vim.api.nvim_buf_set_lines(0, next_line, next_line, false, {
+            "{{ " .. field_name .. ".label_tag }}",
+            "{{ " .. field_name .. " }}",
+            "{{ " .. field_name .. ".errors }}",
+          })
+          vim.api.nvim_feedkeys("jVjj=","n", false)
+        end)
+      end, { buffer = true })
+    end)
+  end,
+})
