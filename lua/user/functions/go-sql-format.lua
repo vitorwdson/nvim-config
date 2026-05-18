@@ -84,6 +84,10 @@ local function run_formatter(node)
 end
 
 local function format_go_sql()
+  if vim.bo.filetype ~= "go" then
+    return
+  end
+
   -- Get the current buffer's parser
   local parser = vim.treesitter.get_parser()
   if parser == nil then

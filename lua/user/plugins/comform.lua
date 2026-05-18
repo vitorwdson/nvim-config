@@ -22,6 +22,7 @@ return {
       python = { "ruff_fix", "ruff_organize_imports", "ruff_format" },
       htmldjango = { "djlint" },
       json = { "jq" },
+      jsonc = { "jq" },
       css = { "biome" },
       javascript = { "biome-organize-imports", "biome" },
       typescript = { "biome-organize-imports", "biome" },
